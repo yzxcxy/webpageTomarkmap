@@ -1,0 +1,453 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 网页总结->思维导图
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.4
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: if-else
+      id: 1734345226176-source-1734347040976-target
+      source: '1734345226176'
+      sourceHandle: source
+      target: '1734347040976'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: llm
+      id: 1734347040976-true-1734355317893-target
+      selected: false
+      source: '1734347040976'
+      sourceHandle: 'true'
+      target: '1734355317893'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: answer
+      id: 1734355317893-source-answer-target
+      source: '1734355317893'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: tool
+      id: 1734355795066-source-1734356002393-target
+      source: '1734355795066'
+      sourceHandle: source
+      target: '1734356002393'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: llm
+      id: 1734347040976-false-1734355795066-target
+      source: '1734347040976'
+      sourceHandle: 'false'
+      target: '1734355795066'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: parameter-extractor
+      id: 1734356002393-source-1734357573169-target
+      source: '1734356002393'
+      sourceHandle: source
+      target: '1734357573169'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: parameter-extractor
+        targetType: code
+      id: 1734357573169-source-1734357898159-target
+      source: '1734357573169'
+      sourceHandle: source
+      target: '1734357898159'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: answer
+      id: 1734357898159-source-1734358064543-target
+      source: '1734357898159'
+      sourceHandle: source
+      target: '1734358064543'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: category
+          max_length: 48
+          options:
+          - summary
+          - mindmap
+          required: true
+          type: select
+          variable: category
+        - label: content
+          max_length: 4096
+          options: []
+          required: true
+          type: paragraph
+          variable: content
+      height: 116
+      id: '1734345226176'
+      position:
+        x: 34
+        y: 324.148698354997
+      positionAbsolute:
+        x: 34
+        y: 324.148698354997
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 31124ef0-33c7-4e83-a6dc-6464eae7c158
+            value: summary
+            varType: string
+            variable_selector:
+            - '1734345226176'
+            - category
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 126
+      id: '1734347040976'
+      position:
+        x: 381.6804920892271
+        y: 312
+      positionAbsolute:
+        x: 381.6804920892271
+        y: 312
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1734355317893.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 103
+      id: answer
+      position:
+        x: 1110.7578582832552
+        y: 277.27357484976557
+      positionAbsolute:
+        x: 1110.7578582832552
+        y: 277.27357484976557
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: deepseek
+        prompt_template:
+        - id: 35e71f9f-aa8b-44f4-9620-fda14a9231d5
+          role: system
+          text: '<instructions>
+
+            请参考资料{{#1734345226176.content#}}，然后按照以下步骤完成任务：
+
+
+            1. 仔细阅读提供的文本内容，确保理解其主要信息和要点。
+
+            2. 提取文本中的关键信息，包括主要观点、重要事实和数据。
+
+            3. 将提取的信息进行整理，形成一个简洁、连贯的总结。
+
+            4. 确保总结涵盖了原文的核心内容，同时避免不必要的细节和冗余信息。
+
+            5. 输出总结时，请确保不包含任何XML标签，保持文本的纯净和易读性。
+
+            </instructions>'
+        - id: a9eac919-1897-4fcb-964a-9093f5fa6f7c
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1734355317893'
+      position:
+        x: 735.4608085201428
+        y: 297.12442880304394
+      positionAbsolute:
+        x: 735.4608085201428
+        y: 297.12442880304394
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1734345226176'
+          - content
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: deepseek
+        prompt_template:
+        - id: 68d5b99e-6aac-43c1-a58e-8b5d59a3819e
+          role: system
+          text: '内容：“”“
+
+            {{#1734345226176.content#}}
+
+            ”“”
+
+            你是个思维导图生成的助手
+
+            你的任务是根提供的内容生成markmap格式的思维导
+
+            图
+
+            注意你只需要输出markmap格式的文字，尤其开头和结尾不要输出代码块标识的东西'
+        - id: 1d6ae28e-b036-4b23-aa83-b9b752b0992b
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1734355795066'
+      position:
+        x: 735.4608085201428
+        y: 434.12442880304394
+      positionAbsolute:
+        x: 735.4608085201428
+        y: 434.12442880304394
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: de2393e3-094c-4428-83a5-902689426f40
+        provider_name: markmap思维导图工具
+        provider_type: workflow
+        selected: false
+        title: markmap思维导图工具
+        tool_configurations: {}
+        tool_label: markmap思维导图工具
+        tool_name: save_markmap
+        tool_parameters:
+          content:
+            type: mixed
+            value: '{{#1734355795066.text#}}'
+        type: tool
+      height: 54
+      id: '1734356002393'
+      position:
+        x: 1039.4608085201428
+        y: 434.12442880304394
+      positionAbsolute:
+        x: 1039.4608085201428
+        y: 434.12442880304394
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: deepseek
+        parameters:
+        - description: 提取result里面的地址
+          name: result
+          required: false
+          type: string
+        query:
+        - '1734356002393'
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 参数提取器
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1734357573169'
+      position:
+        x: 1334.3665091210803
+        y: 517.4888399611157
+      positionAbsolute:
+        x: 1334.3665091210803
+        y: 517.4888399611157
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import re\n\ndef main(text: str) -> dict:\n    pattern = r\"https?://[^\\\
+          s]+\"\n    match = re.search(pattern, text)\n    return {\"url\":match.group()}\
+          \  \n"
+        code_language: python3
+        desc: ''
+        outputs:
+          url:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1734357573169'
+          - result
+          variable: text
+      height: 54
+      id: '1734357898159'
+      position:
+        x: 1679.2908564168617
+        y: 434.12442880304394
+      positionAbsolute:
+        x: 1679.2908564168617
+        y: 434.12442880304394
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1734357898159.url#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 103
+      id: '1734358064543'
+      position:
+        x: 1983.2908564168613
+        y: 427.5842052850253
+      positionAbsolute:
+        x: 1983.2908564168613
+        y: 427.5842052850253
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -331.20515185775025
+      y: 47.755288585037334
+      zoom: 0.6597539553864471

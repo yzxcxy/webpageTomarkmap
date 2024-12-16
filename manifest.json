@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "文档助手",
+    "version": "1.0",
+    "description": "帮助你读文档",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "contextMenus",
+        "sidePanel",
+        "offscreen",
+        "cookies",
+        "scripting"
+    ],
+    "host_permissions": [
+        "\u003Call_urls>",
+        "https://*/*",
+        "http://*/*"
+    ],
+    "action": {
+        "default_title": "Click to open panel",
+        "default_icon": "icon.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "side_panel": {
+        "default_path": "sidebar.html"
+    }
+}
